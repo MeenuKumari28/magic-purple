@@ -20,3 +20,27 @@ $processor$: pr.fastn-apps
 -- ftd.image-src fastn-logo:
 light: https://fastn.com/-/fastn.com/images/fastn.svg
 dark: https://fastn.com/-/fastn.com/images/fastn-dark.svg
+
+
+
+-- record card:
+caption title:
+ftd.image-src icon:
+body body:
+string link:
+
+-- card list card-data:
+
+-- card: This is an Heading
+icon: $assets.files.assets.icon.svg
+link: /sidebar/
+
+Lorem ipsum dolor sit am consectetur adipiscing elit. Integer vitae congue.
+
+-- card: This is an Heading
+icon: $assets.files.assets.icon.svg
+link: /sidebar/
+
+Lorem ipsum dolor sit am consectetur adipiscing elit. Integer vitae congue.
+
+-- end: card-data

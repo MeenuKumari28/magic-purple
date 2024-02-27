@@ -1,6 +1,92 @@
 -- lib.page:
 
+-- cards: Intro to fifthtry slides
+card-list: $common.card-data
+
 -- end: lib.page
 
 
 
+
+
+
+
+
+-- component cards:
+caption title:
+common.card list card-list:
+
+-- ds.section-column:
+spacing: $ds.spaces.vertical-gap.large
+margin: $ds.spaces.vertical-gap.medium
+align-content: left
+
+-- ds.heading-large: $cards.title
+
+-- ds.row:
+spacing: $ds.spaces.horizontal-gap.medium
+wrap: true
+align-content: left
+
+-- card-content: $obj.title
+for: $obj in $cards.card-list
+icon: $obj.icon
+link: $obj.link
+
+$obj.body
+
+-- end: ds.row
+
+-- end: ds.section-column
+
+-- end: cards
+
+
+
+
+
+
+
+
+
+-- component card-content:
+caption title:
+ftd.image-src icon:
+body body:
+string link:
+boolean $hover: false
+
+-- ds.row:
+width.fixed.px: 440
+inset: $ds.spaces.inset-square.medium
+spacing: $ds.spaces.horizontal-gap.medium
+border: $ds.borders.uniform.small
+link: $card-content.link
+
+-- ftd.image:
+src: $card-content.icon
+width.fixed.px: 64
+
+-- ds.column:
+spacing: $ds.spaces.vertical-gap.small
+align-content: left
+
+-- ds.row:
+spacing: $ds.spaces.horizontal-gap.small
+align-content: left
+
+-- ds.heading-tiny: $card-content.title
+
+-- ftd.image:
+src: $assets.files.assets.right.svg
+width.fixed.px: 16
+
+-- end: ds.row
+
+-- ds.copy-small: $card-content.body
+
+-- end: ds.column
+
+-- end: ds.row
+
+-- end: card-content

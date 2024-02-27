@@ -50,7 +50,7 @@ spacing: $ds.spaces.vertical-gap.large
 -- ds.row:
 if: { page.current-section != NULL }
 spacing: $ds.spaces.horizontal-gap.small
-inset: $ds.spaces.inset-wide.medium-zero
+inset: $ds.spaces.inset-wide.large-zero
 align-content: left
 
 -- ftd.image:
@@ -61,32 +61,17 @@ align-self: center
 src: $assets.files.assets.right.svg
 align-self: center
 
--- ds.link: $page.current-section.title
-if: { page.current-section.title != NULL }
-color: $inherited.colors.text-strong
-;;color if { page.current-subsection == NULL }: $inherited.colors.accent.primary
-link: $page.current-section.url
-align: center
-
--- ftd.image:
-if: { page.current-page != NULL }
-src: $assets.files.assets.right.svg
-align-self: center
-
--- ftd.text: $page.current-page.title 
-if: { page.current-page != NULL }
-role: $inherited.types.label-large
-color: $inherited.colors.accent.primary
-link: $page.current-page.url 
-white-space: nowrap
-align-self: center
+-- childs:
+$loop$: $common.sitemap.toc as $obj 
+item: $obj
+show-arrow: false
 
 -- end: ds.row
 
 -- ds.column:
 content: $page.wrapper
 align-content: top-left
-inset: $ds.spaces.inset-wide.medium-zero
+inset: $ds.spaces.inset-wide.large-zero
 
 -- end: ds.column
 
@@ -141,6 +126,7 @@ toc: $obj
 -- component toc-instance:
 pr.toc-item toc:
 pr.toc-item $toc-clone: *$toc-instance.toc
+optional boolean $hover: false
 
 -- ds.column:
 spacing: $ds.spaces.horizontal-gap.small
@@ -153,8 +139,8 @@ $on-click$: $ftd.toggle($a = $toc-instance.toc-clone.is-open)
 -- ds.copy-regular: $toc-instance.toc.title
 link if { toc-instance.toc.url != NULL }: $toc-instance.toc.url
 color: $inherited.colors.text-strong
-width: fill-container
 style: bold
+width: fill-container
 
 -- ftd.image:
 if: { !ftd.is_empty(toc-instance.toc.children) }
@@ -191,6 +177,7 @@ toc: $obj
 -- component childrens:
 pr.toc-item toc:
 pr.toc-item $toc-clone: *$childrens.toc
+boolean $hover: false
 
 -- ds.column:
 align-content: left
@@ -200,9 +187,8 @@ spacing: $ds.spaces.vertical-gap.medium
 spacing: $ds.spaces.horizontal-gap.space-between
 $on-click$: $ftd.toggle($a = $childrens.toc-clone.is-open)
 
--- ds.copy-small:
+-- ds.copy-small: $childrens.toc.title
 link if { childrens.toc.url != NULL }: $childrens.toc.url
-text: $childrens.toc.title
 color: $inherited.colors.text-strong
 
 -- ftd.image:
@@ -219,7 +205,7 @@ spacing: $ds.spaces.vertical-gap.medium
 inset: $ds.spaces.inset-wide.medium-zero
 
 -- child-of-childrens:
-$loop$: $childrens.toc.children as $obj
+for: $obj in $childrens.toc.children
 toc: $obj
 
 -- end: ds.column
@@ -243,14 +229,12 @@ pr.toc-item toc:
 -- ds.column:
 align-content: left
 
--- ftd.text:
+-- ds.copy-small: $child-of-childrens.toc.title
 link if { child-of-childrens.toc.url != NULL }: $child-of-childrens.toc.url
-text: $child-of-childrens.toc.title
-role: $inherited.types.copy-small
 color: $inherited.colors.text-strong
 
 -- ds.column:
-;;if: { !ftd.is_empty(child-of-childrens.toc.children) }
+if: { !ftd.is_empty(child-of-childrens.toc.children) }
 width: fill-container
 
 -- child-of-childrens:
@@ -262,3 +246,40 @@ toc: $obj
 -- end: ds.column
 
 -- end: child-of-childrens
+
+
+
+
+
+
+
+
+-- component childs:
+pr.toc-item item:
+boolean show-arrow: true
+
+-- ds.row:
+if: { childs.item.is-open }
+spacing: $ds.spaces.horizontal-gap.small
+width: hug-content
+
+-- ftd.image:
+if: { childs.item.title != NULL && childs.item.is-open && childs.show-arrow }
+src: $assets.files.assets.right.svg
+align-self: center
+
+-- ftd.text: $childs.item.title
+if: { childs.item.title != NULL  && childs.item.is-open }
+color: $inherited.colors.text-strong
+role: $inherited.types.label-small
+color if { childs.item.is-active }: $inherited.colors.cta-primary.base
+link: $childs.item.url
+
+-- childs:
+if: { childs.item.is-open }
+$loop$: $childs.item.children as $obj
+item: $obj
+
+-- end: ds.row
+
+-- end: childs
